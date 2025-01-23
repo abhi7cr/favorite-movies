@@ -11,25 +11,26 @@ const Home = ({ data }) => {
       <Layout home>
       <Head>
         <title>{'Favorite Movies'}</title>
+
       </Head>
 
       <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
-        <h2 className={utilStyles.headingLg}>Favorite Movies</h2>
+        <h2 className={utilStyles.headingLg}>ISR Test</h2>
+        <h3>{process.env.TEST}</h3>
+
         <ul className={utilStyles.list}>
-          {data.map(({ id, date, title }) => (
+          {data.map(({ id, title }) => (
             <li className={utilStyles.listItem} key={id}>
               <Link href={`/movies/${id}`}>
                 <a>{title}</a>
+
               </Link>
               <br />
-              <small className={utilStyles.lightText}>
-                <small>{date}</small>
-              </small>
             </li>
           ))}
         </ul>
       </section>
-      
+
     </Layout>
     )
   } else {
@@ -37,13 +38,14 @@ const Home = ({ data }) => {
   }
 }
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   const res = await fetch('https://6obli1j4bb.execute-api.us-west-2.amazonaws.com/Prod/listMovies')
   const data = await res.json()
   return {
     props: {
-      data,
-    }
+      data
+    },
+    revalidate: 10
   }
 }
 
